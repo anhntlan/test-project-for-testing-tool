@@ -4,19 +4,24 @@ public class UserService {
         return age >= 18;
     }
 
-    public String registerUser(String name, int age) {
+     public String registerUser(String name, int age) {
+        if (!isValidName(name)) {
+            return "Invalid name. Must be at least 3 characters.";
+        }
         if (!checkAge(age)) {
             return "User " + name + " is under 18. Registration failed.";
         }
-        return "User " + name + " registered successfully!";
+
+        sendVerificationEmail(name);  
+        return "User " + name + " registered successfully and email sent!";
     }
 
     public void printWelcome(String username) {
         System.out.println("Welcome, " + username + "!");
     }
-
+    
     public boolean isValidName(String name) {
-        return name != null && !name.trim().isEmpty();
+        return name != null && name.length() >= 3;
     }
 
     public String greetUser(String name) {
@@ -26,11 +31,7 @@ public class UserService {
         return "Hello, " + name + "!";
     }
 
-    public String getUserSummary(String name, int age) {
-        String valid = isValidName(name) ? name : "(unknown)";
-        String status = checkAge(age) ? "(adult)" : "(minor)";
-        return "Name: " + valid + ", Age: " + age + " " + status;
-    }
+  
 
     public String updateUserAge(String name, int newAge) {
         if (!isValidName(name)) {
@@ -44,5 +45,15 @@ public class UserService {
 
     public void printFarewell(String username) {
         System.out.println("Goodbye, " + username + "!");
+    }
+    public void sendVerificationEmail(String username) {
+        System.out.println("Verification email sent to " + username);
+    }
+    public String login(String username, int passwordHash) {
+        if (username.equals("admin") && passwordHash == 12345) {
+            return "Login successful!";
+        } else {
+            return "Login failed.";
+        }
     }
 }

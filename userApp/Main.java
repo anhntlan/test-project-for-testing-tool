@@ -5,7 +5,8 @@ public class Main {
         System.out.println(service.registerUser("Lana", 19));
         System.out.println(service.registerUser("Tom", 15));
 
-        service.printWelcome("Lana");
+        System.out.println(service.login("Lana", 12345));
+        System.out.println(service.login("Tom", 99999));
     }
 }
 
