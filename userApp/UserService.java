@@ -61,7 +61,7 @@ public class UserService {
             return false;
         }
         String trimmed = name.trim();
-        if (trimmed.length() < 3) {
+        if (trimmed.length() < 5) {
             return false;
         }
         return !trimmed.matches("^[^a-zA-Z0-9]+$");
@@ -88,7 +88,10 @@ public class UserService {
         }
     }
     public void sendVerificationEmail(String username) {
-        
+        if (username == null || username.trim().isEmpty()) {
+            System.out.println("No username provided — cannot send verification email.");
+            return;
+        }
         if (isBlacklistedName(username)) {
             System.out.println("Verification suppressed for blacklisted name: " + username);
             return;
@@ -112,7 +115,28 @@ public class UserService {
         return s.matches(".*\\d.*");
     }
 
-    private boolean isUnrealisticAge(int age) {
-        return age < 0 || age > 150;
+     public String login(String username, int passwordHash) {
+        if (username == null || username.trim().isEmpty()) {
+            return "Username required.";
+        } else if (passwordHash <= 0) {
+            return "Invalid password provided.";
+        }
+
+        if (username.equals("admin")) {
+            if (passwordHash == 12345) {
+                return "Admin login successful!";
+            } else if (passwordHash == 0) {
+                return "Admin login failed: weak password.";
+            } else {
+                return "Admin login failed: incorrect password.";
+            }
+        }
+
+        if (passwordHash % 2 == 0) {
+            return "Login successful!";
+        } else {
+            return "Login failed.";
+        }
     }
+
 }
