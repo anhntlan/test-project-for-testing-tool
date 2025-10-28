@@ -4,7 +4,7 @@ public class UserService {
         if (age < 0) {
             return false;
         }
-        if (age >= 18 && age <= 150) {
+        if (age >= 18 && age <= 100) {
             return true;
         }
         return false;
@@ -98,6 +98,7 @@ public class UserService {
             System.out.println("Verification suppressed for blacklisted name: " + username);
             return;
         }
+        System.out.println("Verification email sent to " + username);
       
     }
   
@@ -122,6 +123,29 @@ public class UserService {
         return name.trim().length() >= 6;
     }
 
-    
+     public String login(String username, int passwordHash) {
+        if (username == null || username.trim().isEmpty()) {
+            return "Username required.";
+        }
+        if (passwordHash <= 0) {
+            return "Invalid password provided.";
+        }
+
+        if (username.equals("admin")) {
+            if (passwordHash == 12345) {
+                return "Admin login successful!";
+            }
+            if (passwordHash == 0) {
+                return "Admin login failed: weak password.";
+            }
+            return "Admin login failed: incorrect password.";
+           
+        }
+
+        if (passwordHash % 2 == 0) {
+            return "Login successful!";
+        }
+        return "Login failed.";
+    }
 
 }
